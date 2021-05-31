@@ -1,0 +1,12 @@
+# Mac Files
+.DS_Store
+
+
+# Development
+
+builds/
+node_modules/
+dist/
+src/app.css*
+src/app.min.css
+package-lock.json

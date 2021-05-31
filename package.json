@@ -1,0 +1,41 @@
+{
+  "name": "electron-react-boilerplate",
+  "productName": "Electron-React Boilerplate",
+  "version": "1.0.0",
+  "description": "Electron-React boilerplate",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ihortom/electron-react-boilerplate.git"
+  },
+  "scripts": {
+    "bundle": "webpack --config webpack.config.js",
+    "watch": "webpack --config webpack.config.js --watch",
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "Ihor Tomilenko",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "@webpack-cli/serve": "^1.4.0",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^5.2.4",
+    "electron": "^10.4.3",
+    "electron-reload": "^1.5.0",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  },
+  "bugs": {
+    "url": "https://github.com/ihortom/electron-react-boilerplate/issues"
+  }
+}
