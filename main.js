@@ -4,8 +4,8 @@ const path = require('path');
 function createWindow() {
   const win = new BrowserWindow({
     title: "Electron-React Boilerplate",
-    width: 800,
-    height: 600,
+    width: 600,
+    height: 400,
     backgroundColor: "white",
     resizable: false,
     webPreferences: {
