@@ -1,16 +1,88 @@
+@import "bootstrap/bootstrap.min.css";
+
+$template: #00ffa2;
+
 .App {
-  text-align: center;
-  padding: 10px;
-  button {
-    padding: .5rem 1rem;
-  }
-  #count {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: rgb(133, 133, 133);
-    border: 1px solid rgb(133, 133, 133);
-    padding: .5rem 1rem;
-    width: 50px;
-    margin: .5rem auto 0;
-  }
+    padding: 0 10px 10px;
+    #header {
+        width: 100%;
+        position: fixed;
+        padding: 10px 20px 10px 0;
+        background-color: white;
+        z-index: 1000;
+    }
+    #templates {
+        padding: 50px 5px 10px;
+    }
+    .picker-block {
+        display: block;
+        margin: .5rem 0;
+        border-bottom: 1px solid #000;
+        opacity: 50%;
+    }
+    button {
+        padding: .5rem 1rem;
+        &.picker {
+            font-size: .85rem;
+            text-align: left !important;
+            padding: .35rem .5rem;
+            span.template {
+                background-color: $template;
+            }
+        }
+        &.btn-light:hover {
+            background-color: #e2e6ea;
+            border-color: #dae0e5;
+        }
+        &.dropdown-toggle {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+    .btn {
+        border-radius: 0;
+    }
+    .btn-block {
+        margin: .25rem 0;
+    }
+    .hidden {
+        position: absolute;
+        left: -9999px;
+    }
+    .filled {
+        background-color: $template;
+    }
+    .alert {
+        margin: 1rem 0;
+        text-align: center;
+    }
+    .washer {
+        width: 1rem;
+    }
+    .comment {
+        font-size: .85rem;
+        color: green;
+        opacity: .75;
+        margin: 0;
+    }
+}
+
+#about {
+    font-size: smaller;
+    text-align: center;
+    padding: 3px;
+    .card-body {
+        padding: 0;
+    }
+    .about-img-top {
+        width: 48px;
+        height: 48px;
+        margin: .5rem;
+    }
+    h6, .card-footer {
+        font-size: smaller;
+    }
+    .card-text {
+        padding: .5rem;
+    }
 }
