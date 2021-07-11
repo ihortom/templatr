@@ -4,7 +4,8 @@ Templatr is a generic templating application built with Electron and React for a
 
 1. First install dependencies: ```npm install```
 2. In one terminal window run: ```npm run bundle``` to compile react code
-3. In other one run: ```npm start``` to start Electron app
+3. To start Electron app in DEV mode: ```npm start```
+4. Run ```npm run package-mac``` to package application for Mac
 
 To add templates, select "Edit Templates" in menu to open the default YAML editor. Add your one-line templates. The templates could be accompanied by standard YAML commemts, which will be conveyed to UI as well. Add `_VAR_` to the templates whenever you need to be flexible with values. They could be easily replaced with actual value from UI. Once saved, restart the application (could be achieved from "Relaunch App" menu).
 
@@ -20,3 +21,5 @@ Templates type 2:
 ```
 
 The current version has only been created with macOS in mind.
+
+![Templatr](https://tomilenko.tk/download/templatr.png)
