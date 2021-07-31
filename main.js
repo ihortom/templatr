@@ -2,6 +2,7 @@ const { BrowserWindow, Menu, app, ipcMain } = require('electron');
 const os = require('os');
 const path = require('path');
 const shell = require('electron').shell
+const contextMenu = require('electron-context-menu');
 
 
 function createWindow() {
@@ -70,14 +71,12 @@ function createWindow() {
       {
         label: "Edit",
         submenu: [
-            { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
-            { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
-            { type: "separator" },
             { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
             { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
             { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
             { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
-        ]}
+        ]
+      }
   ]);
   Menu.setApplicationMenu(menu); 
 }
@@ -105,6 +104,14 @@ function openAboutWindow() {
     newWindow = null
   })
 }
+
+contextMenu({
+    menu: actions => [
+        actions.copy({
+            transform: content => `${content}`,
+        }),
+    ],
+});
 
 app.whenReady().then(createWindow)
 

@@ -36,12 +36,12 @@ const App = () => {
     const comments = useRef(getComments())
 
     const [filter, setFilter] = useState({
-        types: [],
-        var: '',
-        values: {},
-        picked: [],
-        search: '',
-        error: null
+        types: [],      // all types
+        var: '',        // _VAR_ replacement
+        values: {},     // dict of types (key) with array of templates (value)
+        picked: [],     // selected type
+        search: '',     // search pattern case insensitive
+        error: null     // error during initialization
     })
 
     const selectSearchItem = (e) => {
@@ -109,6 +109,34 @@ const App = () => {
         }
     }
 
+    const selectByPaternOnRestore = (pattern) => {
+
+        if (pattern !== '') {
+            const f = Object.entries(data.current)
+                        .map(i => [i[0], (i[1].filter(j => j.toLowerCase().includes(pattern.toLowerCase())))])
+                        .filter(i => i[1].length > 0)
+
+            const filtered = Object.fromEntries(f);
+
+            setFilter({
+                ...filter,
+                types: Object.keys(data.current),
+                values: filtered,
+                picked: Object.keys(data.current),
+                search: pattern
+            });
+        }
+        else {
+            setFilter({
+                ...filter,
+                types: Object.keys(data.current),
+                values: data.current,
+                picked: Object.keys(data.current),
+                search: ''
+            });
+        }
+    }
+
     const assignVar = (target) => {     
         setFilter({
             ...filter,
@@ -147,6 +175,13 @@ const App = () => {
                         {filter.types.sort().map((i) => {
                             return (<Dropdown.Item key={`dpItem-${i}`} eventKey={`${i}`}>{i}</Dropdown.Item>)
                         })}
+                        <Dropdown.Divider />
+                        <Dropdown.Item key="Restore" eventKey="Restore"
+                            onSelect={() => {
+                                const searchBox = document.getElementById('search-pattern');
+                                selectByPaternOnRestore(searchBox.value);
+                            }}
+                        >All types</Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item key="Reset" eventKey="Reset"
                             onSelect={resetItems}
