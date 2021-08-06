@@ -1,7 +1,7 @@
 {
   "name": "templatr",
   "productName": "Templatr",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Electron-React boilerplate",
   "main": "main.js",
   "repository": {
@@ -13,7 +13,7 @@
     "watch": "webpack --config webpack.config.js --watch",
     "start": "export ENV=DEV && electron .",
     "package-mac": "export ENV=PROD && sudo electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/templatr.icns --prune=true --out=builds",
-    "create-installer-mac": "sudo electron-installer-dmg builds/Templatr-darwin-x64/Templatr.app Templatr_v1.1.0 --title='Templatr 1.1.0' --out=builds --overwrite --icon=assets/templatr.icns --background=assets/installer.png --icon-size=100"
+    "create-installer-mac": "sudo electron-installer-dmg builds/Templatr-darwin-x64/Templatr.app Templatr_v1.2.0 --title='Templatr 1.2.0' --out=builds --overwrite --icon=assets/templatr.icns --background=assets/installer.png --icon-size=100"
   },
   "keywords": [],
   "author": "Ihor Tomilenko",

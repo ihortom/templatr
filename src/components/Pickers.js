@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button'
 import {v4 as uuid} from 'uuid'
+import Template from './Template'
 
 
 const Picker = ({items, comments, type, value}) => {
@@ -25,9 +26,6 @@ const Picker = ({items, comments, type, value}) => {
                 entries.map((i) => {
                     const typeId = type.replace(' ', '-').toLowerCase();
 
-                    // split template value for highlighting
-                    const tmpl = value !== '' ? i[1].split('_VAR_', 2) : [i[1]]
-
                     // get comments
                     const comment = Object.keys(comments).length > 0 && Object.keys(comments).includes(i[1]) ? comments[i[1]] : ''
 
@@ -47,14 +45,13 @@ const Picker = ({items, comments, type, value}) => {
                                     }
                                     copyToClipboard(e.target)
                                 }}
-                            > 
-                            {`${tmpl[0]}`}<span className="template">{`${tmpl.length == 2 ? value : ""}`}</span>{`${tmpl.length == 2 ? tmpl[1] : ""}`}
+                            >
+                                <Template entry={i[1]} value={value} />
                             </Button><span className="comment">{`${comment.length > 0 ?  ' # ' + comment : ''}`}</span><br />
-                            {/* <p className="comment">{comment}</p>  */}
                             <textarea type="text" className="hidden" 
                                 key={`text-${typeId}-${key}`} id={`text-${typeId}-${key}`}
                                 readOnly={true}
-                                value={`${value !== '' ? i[1].replace('_VAR_', value) : i[1]}`} // same as button
+                                value={`${value !== '' ? i[1].replaceAll('_VAR_', value) : i[1]}`}
                             ></textarea>
                         </React.Fragment>
                     )
