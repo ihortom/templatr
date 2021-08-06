@@ -1,6 +1,6 @@
 # Templatr
 
-Templatr is a generic templating application built with Electron and React for a quick copy & paste action with easy to search templates mentained in YAML format with support for comments.
+Templatr is a generic templating application built with Electron and React for a quick copy & paste action with easy to search templates maintained in YAML format with support for comments.
 
 1. First install dependencies: ```npm install```
 2. In one terminal window run: ```npm run bundle``` to compile react code
