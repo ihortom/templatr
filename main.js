@@ -53,6 +53,13 @@ function createWindow() {
             }
           },
           {
+            label:'Edit Substitutes List',
+            click() {
+              const p = shell.openPath(path.join(os.homedir(), '.templatr', 'substitutes.yaml'))
+            }
+          },
+          {type:'separator'},
+          {
             label:'Relaunch App',
             click() { 
               app.relaunch({ args: process.argv.slice(1).concat(['--relaunch']) })
@@ -163,4 +170,4 @@ ipcMain.on('badge', (event, args) => {
   else {
     event.returnValue = false;
   }
- });
+});

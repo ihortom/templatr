@@ -49,6 +49,9 @@ $template: #00ffa2;
         position: absolute;
         left: -9999px;
     }
+    .empty {
+        display: none;
+    }
     .filled {
         background-color: $template;
     }
@@ -64,6 +67,31 @@ $template: #00ffa2;
         color: green;
         opacity: .75;
         margin: 0;
+    }
+    #template-box {
+        height: 42px;
+    }
+    #live-var-search {
+        position: absolute;
+        padding: 0;
+        list-style-type: none;
+        background-color: #fff;
+        border: 1px solid #ced4da;
+        max-height: 17.5rem;
+        overflow: auto;
+        li {
+            padding: .25rem .75rem;
+            font-size: smaller;
+            &:hover, &.selected {
+                background-color: #b0fce0;
+            }
+        }
+    }
+    .form-control:focus {
+        box-shadow: 0 0 0 0 rgb(13 110 253 / 25%);
+    }
+    .btn:focus {
+        box-shadow: 0 0 0 0 rgb(225 83 97 / 50%) !important;
     }
 }
 

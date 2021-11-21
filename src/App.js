@@ -12,28 +12,37 @@ import { GoX } from 'react-icons/go'
 import Picker from './components/Pickers';
 
 
-
 const App = () => {
 
     const getData = () => {
         try {
-            return window.electron.getTemplateSync()
+            return window.electron.getTemplateSync();
         }
         catch(err) {
-            return {}
+            return {};
         }
     }
-    const data = useRef(getData())
+    const data = useRef(getData());
+
+    const getSubstitutes = () => {
+        try {
+            return window.electron.getSubstitutesSync().sort();
+        }
+        catch(err) {
+            return {};
+        }
+    }
+    const substitutes = useRef(getSubstitutes());
 
     const getComments = () => {
         try {
-            return window.electron.getComments()
+            return window.electron.getComments();
         }
         catch(err) {
-            return {}
+            return {};
         }
     }
-    const comments = useRef(getComments())
+    const comments = useRef(getComments());
 
     const [filter, setFilter] = useState({
         types: [],      // all types
@@ -42,7 +51,7 @@ const App = () => {
         picked: [],     // selected type
         search: '',     // search pattern case insensitive
         error: null     // error during initialization
-    })
+    });
 
     const selectSearchItem = (e) => {
         if (e !== 'Reset') {
@@ -56,7 +65,7 @@ const App = () => {
                                         [key]: data.current[key].filter(i => i.includes(filter.search))
                                     };
                                 }, {})
-            setFilter({...filter, picked: [e], values: filtered})
+            setFilter({...filter, picked: [e], values: filtered});
         }
     }
 
@@ -71,7 +80,7 @@ const App = () => {
 
         // clear search box
         const searchBox = document.getElementById('search-pattern');
-        searchBox.value = ''
+        searchBox.value = '';
     }
 
     const selectByPatern = (pattern) => {
@@ -79,7 +88,7 @@ const App = () => {
         if (pattern !== '') {           
             const f = Object.entries(data.current)
                         .map(i => [i[0], (i[1].filter(j => j.toLowerCase().includes(pattern.toLowerCase())))])
-                        .filter(i => i[1].length > 0)
+                        .filter(i => i[1].length > 0);
 
             const filtered = filter.picked.length === 1 ? 
                                 Object.fromEntries(f.filter(i => i[0] === filter.picked[0])) :
@@ -114,7 +123,7 @@ const App = () => {
         if (pattern !== '') {
             const f = Object.entries(data.current)
                         .map(i => [i[0], (i[1].filter(j => j.toLowerCase().includes(pattern.toLowerCase())))])
-                        .filter(i => i[1].length > 0)
+                        .filter(i => i[1].length > 0);
 
             const filtered = Object.fromEntries(f);
 
@@ -137,16 +146,57 @@ const App = () => {
         }
     }
 
+    const getIndexOf = (nodeList, element) => {
+        for (var i=0; i<nodeList.length; i++) {
+            if (nodeList.item(i) == element) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    const matchVars = (target) => {
+        const matchList = substitutes.current.filter(i => i.includes(target.value));
+        const searchBox = document.getElementById('live-var-search');
+
+        if (target.value.length > 0 && matchList.length > 0) {
+            searchBox.classList.remove('empty');
+
+            while (searchBox.firstChild) {
+                searchBox.removeChild(searchBox.firstChild);
+            }
+
+            for (var i = 0; i < matchList.length; i++) {
+                const varItem = matchList[i];
+                const li = document.createElement('li');
+                li.addEventListener('click', (e) => {
+                    target.value = e.target.innerText;
+                    assignVar(target);
+                    searchBox.classList.add('empty');
+                });
+                li.appendChild(document.createTextNode(varItem));
+                searchBox.appendChild(li);
+            }
+
+            if (target.value == matchList[0]) {
+                searchBox.classList.add('empty');
+            }
+        }
+        else {
+            searchBox.classList.add('empty');
+        }
+    }
+
     const assignVar = (target) => {     
         setFilter({
             ...filter,
             var: target.value
         });
         if (target.value != '') {
-            target.classList.add('filled')
+            target.classList.add('filled');
         }
         else {
-            target.classList.remove('filled')
+            target.classList.remove('filled');
         }
     }
 
@@ -157,9 +207,9 @@ const App = () => {
                 values: data.current,
                 picked: Object.keys(data.current),
                 error: "error" in data.current ? data.current.error : null
-            })
+            });
         }
-    }, [data])
+    }, [data]);
 
     // Main
     return (
@@ -172,16 +222,16 @@ const App = () => {
                         variant={`${filter.picked.length > 1 ? "secondary" : "primary"}`}
                         onSelect={ selectSearchItem }
                     >
-                        {filter.types.sort().map((i) => {
-                            return (<Dropdown.Item key={`dpItem-${i}`} eventKey={`${i}`}>{i}</Dropdown.Item>)
-                        })}
-                        <Dropdown.Divider />
                         <Dropdown.Item key="Restore" eventKey="Restore"
                             onSelect={() => {
                                 const searchBox = document.getElementById('search-pattern');
                                 selectByPaternOnRestore(searchBox.value);
                             }}
                         >All types</Dropdown.Item>
+                        <Dropdown.Divider />
+                        {filter.types.sort().map((i) => {
+                            return (<Dropdown.Item key={`dpItem-${i}`} eventKey={`${i}`}>{i}</Dropdown.Item>)
+                        })}
                         <Dropdown.Divider />
                         <Dropdown.Item key="Reset" eventKey="Reset"
                             onSelect={resetItems}
@@ -199,12 +249,15 @@ const App = () => {
                     <InputGroup.Append>
                         <Button variant="danger"
                             onClick={() => {
-                                document.getElementById('search-pattern').value = '';
+                                const searchPatternBox = document.getElementById('search-pattern');
+                                searchPatternBox.value = '';
                                 selectByPatern('');
+                                searchPatternBox.focus();
                             }}
                         ><GoX /></Button>
                     </InputGroup.Append>
                     <div className="washer"></div>
+                    <div>
                     <FormControl 
                         id="template-box"
                         className="template-value" 
@@ -212,9 +265,52 @@ const App = () => {
                         type="text"
                         onChange={(e) => {
                             e.preventDefault();
+                            matchVars(e.target);
                             assignVar(e.target);
                         }}
+                        onKeyUp={(e) => {
+                            const searchBox = document.getElementById('live-var-search');
+                            const selectedItem = document.querySelector('#live-var-search li.selected');
+                            const selectedItemIndex = getIndexOf(searchBox.childNodes, selectedItem);
+
+                            if (e.which === 40) {       // down
+                                if (selectedItemIndex == null && searchBox.childNodes.length >= 1) {
+                                    searchBox.firstChild.classList.add('selected');
+                                }
+                                else if (selectedItemIndex == searchBox.childNodes.length-1) {
+                                    searchBox.lastChild.classList.remove('selected');
+                                    searchBox.firstChild.classList.add('selected');
+                                }
+                                else {
+                                    searchBox.childNodes.item(selectedItemIndex).classList.remove('selected');
+                                    searchBox.childNodes.item(selectedItemIndex+1).classList.add('selected');
+                                }
+                            }
+                            else if (e.which === 38) {  // up
+                                if (selectedItemIndex == null && searchBox.childNodes.length >= 1) {
+                                    searchBox.lastChild.classList.add('selected');
+                                }
+                                else if (selectedItemIndex == 0) {
+                                    searchBox.firstChild.classList.remove('selected');
+                                    searchBox.lastChild.classList.add('selected');
+                                }
+                                else {
+                                    searchBox.childNodes.item(selectedItemIndex).classList.remove('selected');
+                                    searchBox.childNodes.item(selectedItemIndex-1).classList.add('selected');
+                                }
+                            }
+                            else if (e.which === 13) {  // enter
+                                if (selectedItemIndex != null) {
+                                    const templateBox = document.getElementById('template-box');
+                                    templateBox.value = selectedItem.innerText;
+                                    assignVar(templateBox);
+                                }
+                                searchBox.classList.add('empty');
+                            }
+                        }}
                     />
+                    <ul id="live-var-search" className="empty"></ul>
+                    </div>
                     <InputGroup.Append>
                         <Button variant="success"
                             onClick={() => {
@@ -229,7 +325,9 @@ const App = () => {
                             onClick={() => {
                                 const templateBox = document.getElementById('template-box');
                                 templateBox.value = '';
+                                matchVars(templateBox);
                                 assignVar(templateBox);
+                                templateBox.focus();
                             }}
                         ><GoX /></Button>
                     </InputGroup.Append>
