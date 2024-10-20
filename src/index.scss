@@ -1,22 +1,42 @@
-@import "bootstrap/bootstrap.min.css";
+@import 'bootstrap/scss/bootstrap';
 
 $template: #00ffa2;
 
+body {
+    padding: 0 .5rem .5rem .5rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+#title {
+    margin: 0;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}
+
 .App {
-    padding: 0 10px 10px;
+    padding: 0 10px 10px 10px;
     #header {
         width: 100%;
         position: fixed;
-        padding: 10px 20px 10px 0;
+        padding: 20px 40px 20px 0;
         background-color: white;
         z-index: 1000;
+        #search-pattern {
+            border-radius: 0;
+        }
+        #substitute-box {
+            height: 42px;
+            border-radius: 6px 0 0 6px;
+        }
     }
     #templates {
-        padding: 50px 0 10px;
+        padding: 70px 0 10px;
     }
     .picker-block {
         display: block;
-        margin: .5rem 0;
+        margin: 1rem 0;
         border-bottom: 1px solid #000;
         opacity: 50%;
     }
@@ -26,6 +46,9 @@ $template: #00ffa2;
             font-size: .85rem;
             text-align: left !important;
             padding: .35rem .5rem;
+            margin: .25rem 0;
+            border-color: #dae0e5;
+            border-radius: 6px;
             span.template {
                 background-color: $template;
             }
@@ -34,13 +57,10 @@ $template: #00ffa2;
             background-color: #e2e6ea;
             border-color: #dae0e5;
         }
-        &.dropdown-toggle {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
     }
-    .btn {
-        border-radius: 0;
+    .btn-reset {
+        border-top-right-radius: 6px !important;
+        border-bottom-right-radius: 6px !important;
     }
     .btn-block {
         margin: .25rem 0;
@@ -67,9 +87,13 @@ $template: #00ffa2;
         color: green;
         opacity: .75;
         margin: 0;
-    }
-    #template-box {
-        height: 42px;
+        &.baseline {
+            vertical-align: bottom;
+            position: absolute;
+            max-height: 60px;
+            padding: 10px 5px;
+            overflow: scroll;
+        }
     }
     #live-var-search {
         position: absolute;
@@ -98,14 +122,25 @@ $template: #00ffa2;
 #about {
     font-size: smaller;
     text-align: center;
-    padding: 3px;
+    padding: 9px 3px 3px 3px;
+    .card-header {
+        img {
+            width: 48px;
+        }
+        .title, .text-muted {
+            margin-bottom: 0;
+        }
+        .title{
+            font-size: large;
+        }
+    }
     .card-body {
         padding: 0;
-    }
-    .about-img-top {
-        width: 48px;
-        height: 48px;
-        margin: .5rem;
+        font-size: smaller;
+        line-height: 1.2;
+        p {
+            margin: 0.5rem 0;
+        }
     }
     h6, .card-footer {
         font-size: smaller;
