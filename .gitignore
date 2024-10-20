@@ -1,12 +1,20 @@
 # Mac Files
 .DS_Store
 
-
-# Development
-
-builds/
+# Dependency directories
 node_modules/
-dist/
-src/app.css*
-src/app.min.css
-package-lock.json
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Webpack
+.webpack/
+
+# Electron-Forge
+out/

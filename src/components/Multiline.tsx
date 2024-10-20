@@ -1,11 +1,16 @@
-import React from 'react'
-import {v4 as uuid} from 'uuid'
+import { Fragment } from 'react/jsx-runtime';
+import {v4 as uuid} from 'uuid';
 
 
-const MultiLine = ({multiLine}) => {
+type MultilineProps = {
+    multiLine: string   // template entry
+};
+
+
+const Multiline = ({multiLine}: MultilineProps) => {
 
     // split string at new line
-    const arrEntry = (multiLine !== '') ? multiLine.split("\n") : [multiLine]
+    const arrEntry = (multiLine !== '') ? multiLine.split("\n") : [multiLine];
 
     return (       
         <>
@@ -13,9 +18,9 @@ const MultiLine = ({multiLine}) => {
                 arrEntry.length > 1 ?
                 arrEntry.slice(0, -1).map(i => {
                     return (
-                        <React.Fragment key={`${uuid()}`}>
+                        <Fragment key={`${uuid()}`}>
                             {i}<br />
-                        </React.Fragment>
+                        </Fragment>
                     )
                 }) : arrEntry[0]
             }
@@ -27,4 +32,4 @@ const MultiLine = ({multiLine}) => {
     )
 }
 
-export default MultiLine
+export default Multiline;
