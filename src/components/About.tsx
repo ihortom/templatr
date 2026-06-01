@@ -1,17 +1,33 @@
 import Card from 'react-bootstrap/Card';
 import logo from '../../assets/templatr.png';
+import { version as reactVersion } from 'react/package.json';
+import { version as bootstrapVersion } from 'bootstrap/package.json';
+import { version as typescriptVersion } from 'typescript/package.json';
 
 
 const About = () => {
 
+    // Runtime versions (app, node, electron, chrome) come from the main process;
+    // build-time package versions are resolved from each dependency's manifest.
+    const getVersions = () => {
+        try {
+            return window.electron.getVersions();
+        }
+        catch {
+            return { app: '', node: '', electron: '', chrome: '' };
+        }
+    };
+
+    const runtime = getVersions();
+
     const app = {
-        version: "2.0.0",
-        node: "20.14.0",
-        electron: "31.1.0",
-        react: "18.3.1",
-        typescript: "4.5.4",
-        bootstrap: "5.3.3",
-        year: 2024,
+        version: runtime.app,
+        node: runtime.node,
+        electron: runtime.electron,
+        react: reactVersion,
+        typescript: typescriptVersion,
+        bootstrap: bootstrapVersion,
+        year: new Date().getFullYear(),
     };
 
     return (       

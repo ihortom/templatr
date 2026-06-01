@@ -4,6 +4,9 @@ import Header from './Header';
 import Picker from './Picker';
 import Alert from 'react-bootstrap/Alert';
 import {v4 as uuid} from 'uuid';
+import { applyTheme, watchTheme } from '../theme';
+
+type ThemeSource = 'light' | 'dark';
 
 
 const App = () => {
@@ -41,6 +44,31 @@ const App = () => {
     }
 
     const comments = useRef(getComments());
+
+    const getThemeSource = (): ThemeSource => {
+        try {
+            return window.electron.getThemeSource() === 'dark' ? 'dark' : 'light';
+        }
+        catch {
+            return 'light';
+        }
+    }
+
+    const [theme, setTheme] = useState<ThemeSource>(getThemeSource());
+
+    // Toggles between light and dark, persisting the choice and re-applying
+    // immediately (the matchMedia listener also fires for the override).
+    const toggleTheme = () => {
+        const next: ThemeSource = theme === 'dark' ? 'light' : 'dark';
+        try {
+            window.electron.setThemeSource(next);
+        }
+        catch {
+            // running outside Electron (e.g. tests); apply best-effort below
+        }
+        setTheme(next);
+        applyTheme();
+    };
 
     const [filter, setFilter] = useState<FilterProps>({
         types: [],      // all types
@@ -200,6 +228,8 @@ const App = () => {
         }
     };
 
+    useEffect(() => watchTheme(), []);
+
     useEffect(() => {
         if (Object.keys(templates).length > 0 && 'current' in templates && typeof templates.current === 'object') {
             setFilter({...filter, 
@@ -214,8 +244,10 @@ const App = () => {
     return (
         <StrictMode>
             <div className="App">
-                <Header 
+                <Header
                     filter={filter}
+                    theme={theme}
+                    toggleTheme={toggleTheme}
                     selectSearchItem={selectSearchItem}
                     selectByPaternOnRestore={selectByPaternOnRestore}
                     resetItems={resetItems}

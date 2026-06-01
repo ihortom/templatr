@@ -4,10 +4,19 @@ import FormControl from 'react-bootstrap/FormControl';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Button from 'react-bootstrap/Button';
 import { GoX } from 'react-icons/go';
+import { BsSunFill, BsMoonStarsFill } from 'react-icons/bs';
 
+type ThemeSource = 'light' | 'dark';
+
+const themeIcon: Record<ThemeSource, JSX.Element> = {
+    light: <BsSunFill />,
+    dark: <BsMoonStarsFill />
+};
 
 type HeaderProps = {
     filter: FilterProps,
+    theme: ThemeSource,
+    toggleTheme: () => void,
     selectSearchItem: (e: string) => void,
     selectByPaternOnRestore: (pattern: string) => void,
     resetItems: () => void,
@@ -19,6 +28,8 @@ type HeaderProps = {
 
 const Header = ({
         filter,
+        theme,
+        toggleTheme,
         selectSearchItem,
         selectByPaternOnRestore,
         resetItems,
@@ -142,6 +153,14 @@ const Header = ({
                         templateBox.focus();
                     }}
                 ><GoX /></Button>
+                <div className="washer"></div>
+                <Button
+                    variant="outline-secondary"
+                    className="btn-theme"
+                    title={`Theme: ${theme}`}
+                    aria-label={`Theme: ${theme}`}
+                    onClick={toggleTheme}
+                >{themeIcon[theme]}</Button>
             </InputGroup>
         </div>
     );
