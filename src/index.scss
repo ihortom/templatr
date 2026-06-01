@@ -21,7 +21,7 @@ body {
         width: 100%;
         position: fixed;
         padding: 20px 40px 20px 0;
-        background-color: white;
+        background-color: var(--bs-body-bg);
         z-index: 1000;
         #search-pattern {
             border-radius: 0;
@@ -37,7 +37,7 @@ body {
     .picker-block {
         display: block;
         margin: 1rem 0;
-        border-bottom: 1px solid #000;
+        border-bottom: 1px solid var(--bs-border-color);
         opacity: 50%;
     }
     button {
@@ -47,20 +47,31 @@ body {
             text-align: left !important;
             padding: .35rem .5rem;
             margin: .25rem 0;
-            border-color: #dae0e5;
+            border-color: var(--bs-border-color);
             border-radius: 6px;
             span.template {
                 background-color: $template;
+                color: #000;
             }
-        }
-        &.btn-light:hover {
-            background-color: #e2e6ea;
-            border-color: #dae0e5;
+            // Adapt the "light" template buttons to the active theme so they
+            // are not stuck white on a dark background.
+            &.btn-light {
+                background-color: var(--bs-tertiary-bg);
+                border-color: var(--bs-border-color);
+                color: var(--bs-body-color);
+                &:hover {
+                    background-color: var(--bs-secondary-bg);
+                    border-color: var(--bs-border-color);
+                }
+            }
         }
     }
     .btn-reset {
         border-top-right-radius: 6px !important;
         border-bottom-right-radius: 6px !important;
+    }
+    .btn-theme {
+        border-radius: 6px !important;
     }
     .btn-block {
         margin: .25rem 0;
@@ -74,6 +85,7 @@ body {
     }
     .filled {
         background-color: $template;
+        color: #000;
     }
     .alert {
         margin: 1rem 0;
@@ -84,7 +96,7 @@ body {
     }
     .comment {
         font-size: .85rem;
-        color: green;
+        color: var(--bs-success-text-emphasis);
         opacity: .75;
         margin: 0;
         &.baseline {
@@ -99,8 +111,8 @@ body {
         position: absolute;
         padding: 0;
         list-style-type: none;
-        background-color: #fff;
-        border: 1px solid #ced4da;
+        background-color: var(--bs-body-bg);
+        border: 1px solid var(--bs-border-color);
         max-height: 17.5rem;
         overflow: auto;
         li {
@@ -108,6 +120,7 @@ body {
             font-size: smaller;
             &:hover, &.selected {
                 background-color: #b0fce0;
+                color: #000;
             }
         }
     }

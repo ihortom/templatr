@@ -6,11 +6,12 @@ import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
 import { mainConfig } from './webpack.main.config';
 import { rendererConfig } from './webpack.renderer.config';
+import { productName, version, author } from './package.json';
 
 
-const appName = 'Templatr';
-const appVersion = '2.0.0';
-const appCopyright = 'Copyright © 2024 Ihor Tomilenko';
+const appName = productName;
+const appVersion = version;
+const appCopyright = `Copyright © ${new Date().getFullYear()} ${author}`;
 
 const config: ForgeConfig = {
     packagerConfig: {
@@ -61,7 +62,10 @@ const config: ForgeConfig = {
         new FusesPlugin({
         version: FuseVersion.V1,
             [FuseV1Options.RunAsNode]: false,
-            [FuseV1Options.EnableCookieEncryption]: true,
+            // The app stores nothing in cookies / safeStorage, so cookie
+            // encryption is disabled to avoid the macOS keychain ("Safe
+            // Storage") access prompt on launch for this unsigned build.
+            [FuseV1Options.EnableCookieEncryption]: false,
             [FuseV1Options.EnableNodeOptionsEnvironmentVariable]: false,
             [FuseV1Options.EnableNodeCliInspectArguments]: false,
             [FuseV1Options.EnableEmbeddedAsarIntegrityValidation]: true,

@@ -30,6 +30,15 @@ contextBridge.exposeInMainWorld('electron', {
     showContextMenu: () => {
         ipcRenderer.send('show-context-menu');
     },
+    getVersions: (): { app: string, node: string, electron: string, chrome: string } => {
+        return getExternalData('getVersions');
+    },
+    getThemeSource: (): 'light' | 'dark' => {
+        return getExternalData('getThemeSource');
+    },
+    setThemeSource: (source: 'light' | 'dark') => {
+        ipcRenderer.send('setThemeSource', source);
+    },
 });
   
 ipcRenderer.on('context-menu-command', (event, command) => {
