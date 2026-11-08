@@ -4,7 +4,18 @@ Templatr is a generic templating application built with Electron and React for a
 
 1. First install dependencies: ```npm install```
 2. To start Electron app in DEV mode: ```npm start```
-3. Run ```npm run make``` to package application for Mac
+3. Run ```npm run make``` to package application for Mac (for the architecture of the current machine)
+
+To build for a specific Mac architecture, use one of the following (DMGs are written to `out/make`):
+
+| Command | Output | Runs on |
+| --- | --- | --- |
+| `npm run make:mac-universal` | `Templatr_vX.Y.Z_universal.dmg` | Both Intel and Apple silicon (larger download) |
+| `npm run make:mac-arm64` | `Templatr_vX.Y.Z_arm64.dmg` | Apple silicon (M1 and newer) |
+| `npm run make:mac-x64` | `Templatr_vX.Y.Z_x64.dmg` | Intel |
+| `npm run make:mac-all` | All three of the above | |
+
+All targets can be built from either an Intel or an Apple silicon Mac.
 
 To add templates, select "Edit Templates" from the menu to open the default YAML editor. Add your one-line or multi-line templates. The templates could be accompanied by standard YAML comments, which will be conveyed to UI as well. Add `_VAR_` to the templates whenever you need to be flexible with values. They could be easily replaced with actual value from UI. Once saved, restart the application (could be achieved from "Relaunch App" menu).
 

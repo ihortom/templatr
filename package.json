@@ -1,12 +1,18 @@
 {
     "name": "templatr",
     "productName": "Templatr",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "description": "Generic templating application for a quick copy & paste action with easy to search templates maintained in YAML format and with support for comments",
     "main": ".webpack/main",
     "scripts": {
         "start": "electron-forge start",
-        "make": "NODE_ENV=production electron-forge make"
+        "clean": "rm -rf out",
+        "make": "NODE_ENV=production electron-forge make",
+        "make:mac-universal": "NODE_ENV=production electron-forge make --platform=darwin --arch=universal",
+        "make:mac-arm64": "NODE_ENV=production electron-forge make --platform=darwin --arch=arm64",
+        "make:mac-x64": "NODE_ENV=production electron-forge make --platform=darwin --arch=x64",
+        "make:mac-all": "NODE_ENV=production electron-forge make --platform=darwin --arch=arm64,x64,universal",
+        "typecheck": "tsc --noEmit"
     },
     "devDependencies": {
         "@electron-forge/cli": "^7.4.0",
@@ -19,10 +25,10 @@
         "@electron-forge/plugin-fuses": "^7.4.0",
         "@electron-forge/plugin-webpack": "^7.4.0",
         "@electron/fuses": "^1.8.0",
-        "@types/react": "^18.3.3",
-        "@types/react-dom": "^18.3.0",
-        "@typescript-eslint/eslint-plugin": "^5.62.0",
-        "@typescript-eslint/parser": "^5.62.0",
+        "@types/react": "^18.3.31",
+        "@types/react-dom": "^18.3.7",
+        "@typescript-eslint/eslint-plugin": "^8.72.1",
+        "@typescript-eslint/parser": "^8.72.1",
         "@vercel/webpack-asset-relocator-loader": "^1.7.3",
         "css-loader": "^6.11.0",
         "electron": "^42.3.0",
@@ -33,9 +39,9 @@
         "sass": "^1.77.6",
         "sass-loader": "^14.2.1",
         "style-loader": "^3.3.4",
-        "ts-loader": "^9.5.1",
+        "ts-loader": "^9.6.2",
         "ts-node": "^10.9.2",
-        "typescript": "~4.5.4",
+        "typescript": "~6.0.3",
         "url-loader": "^4.1.1"
     },
     "keywords": [],

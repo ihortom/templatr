@@ -8,5 +8,7 @@ import { applyTheme } from './theme';
 
 applyTheme();
 
-const root = createRoot(document.getElementById('root'));
+const container = document.getElementById('root');
+if (!container) throw new Error('Root element #root not found');
+const root = createRoot(container);
 root.render(<App />);

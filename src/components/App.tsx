@@ -5,6 +5,7 @@ import Picker from './Picker';
 import Alert from 'react-bootstrap/Alert';
 import {v4 as uuid} from 'uuid';
 import { applyTheme, watchTheme } from '../theme';
+import { matchesPattern } from '../comments';
 
 type ThemeSource = 'light' | 'dark';
 
@@ -79,12 +80,19 @@ const App = () => {
         error: null     // error during initialization
     });
 
-    const selectSearchItem = (eventKey: string) => {
-        if (eventKey !== 'Reset' && eventKey !== 'All types') {
-            
+    // Whether the search pattern is also matched against template comments
+    const [searchComments, setSearchComments] = useState(true);
+
+    // Comments the search looks into; none when comment search is switched off
+    const searchableComments = (withComments: boolean = searchComments): object =>
+        withComments ? comments.current : {};
+
+    const selectSearchItem = (eventKey: string | null) => {
+        if (eventKey && eventKey !== 'Reset' && eventKey !== 'All types') {
+
             const filtered = {
                 [eventKey]: (templates.current[eventKey as keyof typeof templates.current] as string[])
-                    .filter((i: string) => i.toLowerCase().includes(filter.search.toLowerCase()))
+                    .filter((i: string) => matchesPattern(i, searchableComments(), filter.search))
             };         
           
             setFilter({
@@ -111,10 +119,10 @@ const App = () => {
         }
     }
 
-    const selectByPatern = (pattern: string) => {    
-        if (pattern !== '') {           
+    const selectByPatern = (pattern: string, withComments: boolean = searchComments) => {
+        if (pattern !== '') {
             const f = Object.entries(templates.current)
-                        .map(i => [i[0], (i[1].filter((j: string) => j.toLowerCase().includes(pattern.toLowerCase())))])
+                        .map(i => [i[0], (i[1].filter((j: string) => matchesPattern(j, searchableComments(withComments), pattern)))])
                         .filter(i => i[1].length > 0);
 
             const filtered = filter.picked.length === 1 ? 
@@ -143,11 +151,18 @@ const App = () => {
         }
     }
 
+    // Flips comment search and re-runs the current search with the new setting
+    const toggleSearchComments = () => {
+        const next = !searchComments;
+        setSearchComments(next);
+        selectByPatern(filter.search, next);
+    };
+
     const selectByPaternOnRestore = (pattern: string) => {
         if (pattern !== '') {
             const f = Object.entries(templates.current)
                         .map(i => [i[0], (i[1].filter(
-                            (j: string) => j.toLowerCase().includes(pattern.toLowerCase())))]
+                            (j: string) => matchesPattern(j, searchableComments(), pattern)))]
                         )
                         .filter(i => i[1].length > 0);
 
@@ -252,6 +267,8 @@ const App = () => {
                     selectByPaternOnRestore={selectByPaternOnRestore}
                     resetItems={resetItems}
                     selectByPatern={selectByPatern}
+                    searchComments={searchComments}
+                    toggleSearchComments={toggleSearchComments}
                     matchVars={matchVars}
                     assignVar={assignVar}
                     getIndexOf={getIndexOf}

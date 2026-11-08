@@ -60,6 +60,7 @@ const createWindow = (): void => {
     // Create the browser window
     const mainWindow = new BrowserWindow({
         title: "Templatr",
+        titleBarStyle: "hidden",
         width: width,
         height: 659,
         minWidth: 800,
@@ -134,7 +135,7 @@ const createWindow = (): void => {
     Menu.setApplicationMenu(menu);
 };
 
-let aboutWindow: BrowserWindow = null;
+let aboutWindow: BrowserWindow | null = null;
   
 const openAboutWindow = ():void => {
 
@@ -214,7 +215,7 @@ ipcMain.on('show-context-menu', (event) => {
         }
     ]
     const contextMenu = Menu.buildFromTemplate(template)
-    contextMenu.popup({ window: BrowserWindow.fromWebContents(event.sender) })
+    contextMenu.popup({ window: BrowserWindow.fromWebContents(event.sender) ?? undefined })
 });
 
 ipcMain.on('getTemplates', (event) => {
@@ -233,7 +234,7 @@ ipcMain.on('getTemplates', (event) => {
             }
         }
         catch(err) {
-            event.returnValue = { error: err.message };
+            event.returnValue = { error: err instanceof Error ? err.message : String(err) };
         }
     }
     else {  // create empty file
@@ -266,7 +267,7 @@ ipcMain.on("getSubstitutes", (event) => {
             }
         }
         catch(err) {
-            event.returnValue = err.message;
+            event.returnValue = err instanceof Error ? err.message : String(err);
         }
     }
     else {  // create empty file
