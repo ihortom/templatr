@@ -4,6 +4,7 @@ import { Fragment } from 'react/jsx-runtime';
 import Button from 'react-bootstrap/Button';
 import {v4 as uuid} from 'uuid';
 import Template from './Template';
+import { getComment } from '../comments';
 
 
 type PickerProps = {
@@ -17,7 +18,7 @@ type PickerProps = {
 const Picker = ({items, comments, type, value}: PickerProps) => {
 
     const entries = Object.entries(items);
-    const [copiedElement, setElement] = useState(null);
+    const [copiedElement, setElement] = useState<HTMLElement | null>(null);
 
     let key=0;
 
@@ -27,7 +28,7 @@ const Picker = ({items, comments, type, value}: PickerProps) => {
 
         try {
             await navigator.clipboard.writeText(textElement.innerHTML);
-            setElement(element);
+            setElement(element as HTMLElement);
         } catch (err) {
             if (process.env.NODE_ENV == 'development')
                 console.log(`Failed to copy: ${err}`);
@@ -41,8 +42,7 @@ const Picker = ({items, comments, type, value}: PickerProps) => {
                     const typeId = type.replace(' ', '-').toLowerCase();
 
                     // get comment
-                    const tmp = Object.entries(comments).find(k => i[1].includes(k[0]));
-                    const comment = tmp ? tmp[1] : '';
+                    const comment = getComment(i[1], comments);
                     const baseline = Object.entries(comments).find(k => i[1] == k[0]) ? '' : ' baseline';
 
                     key++;                 

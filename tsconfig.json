@@ -1,20 +1,17 @@
 {
     "compilerOptions": {
-        "target": "ES6",
-        "allowJs": true,
+        "target": "ES2022",
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
         "module": "commonjs",
+        "jsx": "react-jsx",
+        "strict": true,
+        "isolatedModules": true,
         "skipLibCheck": true,
         "esModuleInterop": true,
-        "noImplicitAny": true,
-        "sourceMap": true,
-        "baseUrl": ".",
-        "outDir": "dist",
-        "moduleResolution": "node",
         "resolveJsonModule": true,
-        "jsx": "react-jsx",
-        "paths": {
-        "*": ["node_modules/*"]
-        }
+        "sourceMap": true,
+        "rootDir": "src",
+        "outDir": "dist"
     },
     "include": ["src/**/*"]
 }

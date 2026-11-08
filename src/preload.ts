@@ -43,7 +43,7 @@ contextBridge.exposeInMainWorld('electron', {
   
 ipcRenderer.on('context-menu-command', (event, command) => {
     if (command === 'copy') {
-        const getSelectedText = () => window.getSelection().toString();
+        const getSelectedText = () => window.getSelection()?.toString() ?? '';
         ipcRenderer.send('setClipboard', getSelectedText());
     }
 });
